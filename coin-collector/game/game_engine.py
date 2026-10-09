@@ -20,6 +20,8 @@ NUM_COINS = 6
 # Relative spawn chances: bronze is common, gold is rare.
 COIN_WEIGHTS = {"bronze": 3, "silver": 2, "gold": 1}
 
+ROUND_SECONDS = 30
+
 START_LIVES = 3
 # Frames of invulnerability after a hit (60 frames = 1 second).
 HIT_GRACE_FRAMES = 60
@@ -42,6 +44,7 @@ class GameEngine:
         self.lives = START_LIVES
         self.was_touching = False
         self.grace_frames = 0
+        self.time_left = ROUND_SECONDS
 
     def _random_coin(self, kind=None):
         if kind is None:
@@ -80,9 +83,12 @@ class GameEngine:
             dx += self.player.speed
         self.player.move(dx, dy, WIDTH, HEIGHT)
 
-    def update(self):
+    def update(self, dt=1 / 60):
+        """Advance one frame; `dt` is the real time it took, in seconds."""
         if self.game_over:
             return
+        self.time_left = max(0, self.time_left - dt)
+
         for obstacle in self.obstacles:
             obstacle.update(WIDTH, HEIGHT)
 
