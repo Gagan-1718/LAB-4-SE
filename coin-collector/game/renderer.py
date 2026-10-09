@@ -10,12 +10,15 @@ WINDOW_SIZE = (WIDTH, HEIGHT)
 COLOR_BG = (35, 45, 35)
 COLOR_PLAYER = (80, 180, 255)
 COLOR_TEXT = (255, 255, 255)
+COLOR_COIN_OUTLINE = (20, 20, 20)
 
 
 def draw_scene(surface, player, coins):
     surface.fill(COLOR_BG)
     for coin in coins:
-        pygame.draw.circle(surface, coin.color, (int(coin.x), int(coin.y)), coin.radius)
+        center = (int(coin.x), int(coin.y))
+        pygame.draw.circle(surface, coin.color, center, coin.radius)
+        pygame.draw.circle(surface, COLOR_COIN_OUTLINE, center, coin.radius, width=2)
     pygame.draw.rect(surface, COLOR_PLAYER, player.get_rect(), border_radius=4)
 
 
