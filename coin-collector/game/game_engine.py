@@ -72,7 +72,9 @@ class GameEngine:
             x = random.randint(30, WIDTH - 30)
             y = random.randint(30, HEIGHT - 30)
             coin = Coin.of_kind(kind, x=x, y=y, radius=12)
-            if coin.get_rect().collidelist(HUD_AREAS) == -1:
+            near_player = self.player.get_rect().inflate(80, 80)
+            if (coin.get_rect().collidelist(HUD_AREAS) == -1
+                    and not coin.get_rect().colliderect(near_player)):
                 return coin
 
     def _random_obstacle(self):
@@ -137,6 +139,10 @@ class GameEngine:
         for coin in collected:
             self.coins.remove(coin)
             self.score += coin.value
+        # Clearing the field brings a fresh set of coins for the rest of
+        # the round.
+        if not self.coins:
+            self.coins = self._new_coin_field()
 
     def draw(self, surface, font):
         from game import renderer

@@ -23,11 +23,14 @@ class CoinTypesTest(unittest.TestCase):
             with self.subTest(kind=kind):
                 engine = GameEngine()
                 p = engine.player
-                engine.coins = [Coin.of_kind(kind, p.x, p.y)]
+                coin = Coin.of_kind(kind, p.x, p.y)
+                # A far-away coin keeps the field from being refilled.
+                far_coin = Coin.of_kind("bronze", p.x + 200, p.y)
+                engine.coins = [coin, far_coin]
                 for _ in range(30):
                     engine.update()
                 self.assertEqual(engine.score, expected)
-                self.assertEqual(engine.coins, [])
+                self.assertEqual(engine.coins, [far_coin])
 
     def test_new_field_contains_every_type(self):
         kinds = {coin.kind for coin in GameEngine().coins}
