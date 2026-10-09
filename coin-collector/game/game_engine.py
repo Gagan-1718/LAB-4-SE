@@ -7,6 +7,7 @@ cost a life when the player first touches one, followed by a short grace
 period; the game stops at zero lives (Task 3). No timer yet.
 """
 
+import math
 import random
 import pygame
 
@@ -120,6 +121,7 @@ class GameEngine:
         renderer.draw_scene(surface, self.player, self.coins, self.obstacles, visible)
         renderer.draw_text(surface, font, f"Score: {self.score}", (10, 10))
         renderer.draw_text(surface, font, f"Lives: {self.lives}", (10, 36))
+        renderer.draw_text(surface, font, f"Time: {math.ceil(self.time_left)}", (10, 62))
         renderer.draw_legend(surface, font, COIN_TYPES)
         if self.game_over:
             renderer.draw_banner(surface, font, f"Out of lives! Final score: {self.score}")
