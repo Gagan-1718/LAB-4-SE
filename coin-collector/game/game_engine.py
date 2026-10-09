@@ -18,6 +18,9 @@ from game.collection import check_collection, touching_obstacle
 from game.renderer import WIDTH, HEIGHT
 
 NUM_COINS = 6
+# Screen corners covered by the HUD (top-left) and legend (top-right);
+# coins don't spawn there so they're never hidden behind text.
+HUD_AREAS = [pygame.Rect(0, 0, 150, 95), pygame.Rect(WIDTH - 185, 0, 185, 90)]
 # Relative spawn chances: bronze is common, gold is rare.
 COIN_WEIGHTS = {"bronze": 3, "silver": 2, "gold": 1}
 
@@ -59,9 +62,12 @@ class GameEngine:
     def _random_coin(self, kind=None):
         if kind is None:
             kind = random.choices(list(COIN_WEIGHTS), weights=list(COIN_WEIGHTS.values()))[0]
-        x = random.randint(30, WIDTH - 30)
-        y = random.randint(30, HEIGHT - 30)
-        return Coin.of_kind(kind, x=x, y=y, radius=12)
+        while True:
+            x = random.randint(30, WIDTH - 30)
+            y = random.randint(30, HEIGHT - 30)
+            coin = Coin.of_kind(kind, x=x, y=y, radius=12)
+            if coin.get_rect().collidelist(HUD_AREAS) == -1:
+                return coin
 
     def _random_obstacle(self):
         safe = pygame.Rect(0, 0, SAFE_ZONE, SAFE_ZONE)
