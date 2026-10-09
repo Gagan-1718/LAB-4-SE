@@ -3,7 +3,8 @@ Coin Collector (Lab Starter)
 
 Run with:  python3 main.py
 
-Controls: Arrow keys to move.
+Controls: Arrow keys to move. When the 30-second round ends (time up or
+out of lives), press R, Enter or Space to play again.
 """
 
 import pygame
