@@ -20,6 +20,8 @@ NUM_COINS = 6
 COIN_WEIGHTS = {"bronze": 3, "silver": 2, "gold": 1}
 
 START_LIVES = 3
+# Frames of invulnerability after a hit (60 frames = 1 second).
+HIT_GRACE_FRAMES = 60
 
 NUM_OBSTACLES = 3
 OBSTACLE_SIZE = 40
@@ -38,6 +40,7 @@ class GameEngine:
         self.score = 0
         self.lives = START_LIVES
         self.was_touching = False
+        self.grace_frames = 0
 
     def _random_coin(self, kind=None):
         if kind is None:
@@ -75,10 +78,14 @@ class GameEngine:
             obstacle.update(WIDTH, HEIGHT)
 
         # Lose a life only on the frame contact begins, not on every
-        # frame the player keeps overlapping an obstacle.
+        # frame the player keeps overlapping an obstacle, and never again
+        # during the short grace period right after a hit.
+        if self.grace_frames > 0:
+            self.grace_frames -= 1
         touching = touching_obstacle(self.player, self.obstacles)
-        if touching and not self.was_touching:
+        if touching and not self.was_touching and self.grace_frames == 0:
             self.lives -= 1
+            self.grace_frames = HIT_GRACE_FRAMES
         self.was_touching = touching
 
         # Collected coins are removed from the field so that standing on
