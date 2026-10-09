@@ -125,4 +125,5 @@ class GameEngine:
         renderer.draw_text(surface, font, f"Time: {math.ceil(self.time_left)}", (10, 62))
         renderer.draw_legend(surface, font, COIN_TYPES)
         if self.round_over:
-            renderer.draw_banner(surface, font, f"Out of lives! Final score: {self.score}")
+            reason = "Out of lives!" if self.lives <= 0 else "Time's up!"
+            renderer.draw_banner(surface, font, [reason, f"Final score: {self.score}"])
