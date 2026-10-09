@@ -30,3 +30,15 @@ def draw_banner(surface, font, text):
     surf = font.render(text, True, (255, 220, 80))
     rect = surf.get_rect(center=(surface.get_width() // 2, surface.get_height() // 2))
     surface.blit(surf, rect)
+
+
+def draw_legend(surface, font, coin_types):
+    """Top-right key: a colored dot and point value for each coin type."""
+    labels = [(font.render(f"{kind} = {value}", True, COLOR_TEXT), color)
+              for kind, (value, color) in coin_types.items()]
+    x = surface.get_width() - max(label.get_width() for label, _ in labels) - 10
+    y = 10
+    for label, color in labels:
+        pygame.draw.circle(surface, color, (x - 14, y + label.get_height() // 2), 7)
+        surface.blit(label, (x, y))
+        y += label.get_height() + 4
