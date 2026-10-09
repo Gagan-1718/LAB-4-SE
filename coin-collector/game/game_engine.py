@@ -97,7 +97,9 @@ class GameEngine:
 
     def draw(self, surface, font):
         from game import renderer
-        renderer.draw_scene(surface, self.player, self.coins, self.obstacles)
+        # Blink the player (5 frames on, 5 off) while invulnerable after a hit.
+        visible = self.grace_frames == 0 or (self.grace_frames // 5) % 2 == 0
+        renderer.draw_scene(surface, self.player, self.coins, self.obstacles, visible)
         renderer.draw_text(surface, font, f"Score: {self.score}", (10, 10))
         renderer.draw_text(surface, font, f"Lives: {self.lives}", (10, 36))
         renderer.draw_legend(surface, font, COIN_TYPES)

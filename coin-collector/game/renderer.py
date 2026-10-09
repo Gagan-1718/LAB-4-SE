@@ -14,7 +14,7 @@ COLOR_COIN_OUTLINE = (20, 20, 20)
 COLOR_OBSTACLE = (210, 60, 60)
 
 
-def draw_scene(surface, player, coins, obstacles=()):
+def draw_scene(surface, player, coins, obstacles=(), player_visible=True):
     surface.fill(COLOR_BG)
     for obstacle in obstacles:
         pygame.draw.rect(surface, COLOR_OBSTACLE, obstacle.get_rect(), border_radius=6)
@@ -22,7 +22,8 @@ def draw_scene(surface, player, coins, obstacles=()):
         center = (int(coin.x), int(coin.y))
         pygame.draw.circle(surface, coin.color, center, coin.radius)
         pygame.draw.circle(surface, COLOR_COIN_OUTLINE, center, coin.radius, width=2)
-    pygame.draw.rect(surface, COLOR_PLAYER, player.get_rect(), border_radius=4)
+    if player_visible:
+        pygame.draw.rect(surface, COLOR_PLAYER, player.get_rect(), border_radius=4)
 
 
 def draw_text(surface, font, text, pos, color=COLOR_TEXT):
