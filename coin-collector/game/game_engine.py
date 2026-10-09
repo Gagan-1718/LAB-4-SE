@@ -51,15 +51,19 @@ class GameEngine:
     def reset(self):
         """Start a fresh round: new field, score 0, full lives, full timer."""
         self.player = Player(x=WIDTH / 2, y=HEIGHT / 2)
-        # One coin of every kind so all types appear, the rest random.
-        self.coins = [self._random_coin(kind) for kind in COIN_TYPES]
-        self.coins += [self._random_coin() for _ in range(NUM_COINS - len(COIN_TYPES))]
+        self.coins = self._new_coin_field()
         self.obstacles = [self._random_obstacle() for _ in range(NUM_OBSTACLES)]
         self.score = 0
         self.lives = START_LIVES
         self.was_touching = False
         self.grace_frames = 0
         self.time_left = ROUND_SECONDS
+
+    def _new_coin_field(self):
+        # One coin of every kind so all types appear, the rest random.
+        coins = [self._random_coin(kind) for kind in COIN_TYPES]
+        coins += [self._random_coin() for _ in range(NUM_COINS - len(COIN_TYPES))]
+        return coins
 
     def _random_coin(self, kind=None):
         if kind is None:
