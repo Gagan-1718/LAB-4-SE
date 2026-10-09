@@ -1,5 +1,6 @@
 """
-collection: figures out which coins the player has collected this frame.
+collection: figures out which coins the player has collected this frame,
+and whether the player is touching an obstacle.
 """
 
 
@@ -16,3 +17,11 @@ def check_collection(player, coins):
         if player_rect.colliderect(coin.get_rect()):
             collected.append(coin)
     return collected
+
+
+def touching_obstacle(player, obstacles):
+    """
+    Returns True if the player is overlapping any obstacle this frame.
+    """
+    player_rect = player.get_rect()
+    return any(player_rect.colliderect(o.get_rect()) for o in obstacles)
