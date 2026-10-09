@@ -9,7 +9,7 @@ import random
 import pygame
 
 from game.player import Player
-from game.coin import Coin
+from game.coin import Coin, COIN_TYPES
 from game.collection import check_collection
 from game.renderer import WIDTH, HEIGHT
 
@@ -22,7 +22,9 @@ COIN_WEIGHTS = {"bronze": 3, "silver": 2, "gold": 1}
 class GameEngine:
     def __init__(self):
         self.player = Player(x=WIDTH / 2, y=HEIGHT / 2)
-        self.coins = [self._random_coin() for _ in range(NUM_COINS)]
+        # One coin of every kind so all types appear, the rest random.
+        self.coins = [self._random_coin(kind) for kind in COIN_TYPES]
+        self.coins += [self._random_coin() for _ in range(NUM_COINS - len(COIN_TYPES))]
         self.score = 0
 
     def _random_coin(self, kind=None):
