@@ -5,6 +5,13 @@ bounding square around it.
 
 import pygame
 
+# kind -> (value, color)
+COIN_TYPES = {
+    "bronze": (1, (205, 127, 50)),
+    "silver": (3, (200, 200, 215)),
+    "gold": (5, (255, 215, 0)),
+}
+
 
 class Coin:
     def __init__(self, x, y, radius=12, value=1, color=(230, 190, 60)):
