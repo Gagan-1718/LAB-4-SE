@@ -40,6 +40,7 @@ SAFE_ZONE = 160
 
 class GameEngine:
     def __init__(self):
+        self._big_font = None  # created on first use, needs pygame.font
         self.reset()
 
     def reset(self):
@@ -136,8 +137,10 @@ class GameEngine:
         renderer.draw_legend(surface, font, COIN_TYPES)
         if self.round_over:
             reason = "Out of lives!" if self.lives <= 0 else "Time's up!"
+            if self._big_font is None:
+                self._big_font = pygame.font.SysFont("consolas", 40, bold=True)
             renderer.draw_banner(surface, font, [
                 reason,
-                f"Final score: {self.score}",
+                (f"Final score: {self.score}", self._big_font),
                 "Press R to play again",
             ])

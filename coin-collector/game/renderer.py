@@ -36,14 +36,18 @@ def draw_text(surface, font, text, pos, color=COLOR_TEXT):
 
 
 def draw_banner(surface, font, lines):
-    """Centered framed panel; `lines` is one string or a list of them."""
+    """
+    Centered framed panel. `lines` is one string or a list whose items
+    are strings or (string, font) pairs to use a different font.
+    """
     if isinstance(lines, str):
         lines = [lines]
     # Dim the whole scene so the banner reads clearly on top of it.
     shade = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
     shade.fill((0, 0, 0, 170))
     surface.blit(shade, (0, 0))
-    surfs = [font.render(line, True, (255, 220, 80)) for line in lines]
+    lines = [line if isinstance(line, tuple) else (line, font) for line in lines]
+    surfs = [f.render(text, True, (255, 220, 80)) for text, f in lines]
     gap = 8
     width = max(surf.get_width() for surf in surfs)
     height = sum(surf.get_height() for surf in surfs) + gap * (len(surfs) - 1)
