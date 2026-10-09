@@ -27,7 +27,12 @@ def draw_scene(surface, player, coins, obstacles=(), player_visible=True):
 
 
 def draw_text(surface, font, text, pos, color=COLOR_TEXT):
-    surface.blit(font.render(text, True, color), pos)
+    surf = font.render(text, True, color)
+    # Dark translucent box so the text stays readable over obstacles.
+    box = pygame.Surface((surf.get_width() + 8, surf.get_height() + 2), pygame.SRCALPHA)
+    box.fill((0, 0, 0, 150))
+    surface.blit(box, (pos[0] - 4, pos[1] - 1))
+    surface.blit(surf, pos)
 
 
 def draw_banner(surface, font, text):
