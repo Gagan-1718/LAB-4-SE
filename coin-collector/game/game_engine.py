@@ -1,8 +1,9 @@
 """
 GameEngine: owns the player and all coins.
 
-Starter version: one coin type, no obstacles, no timer yet. Collected
-coins are removed in `update` (Task 1), so each coin is scored once.
+Coins come in bronze/silver/gold types (Task 2); no obstacles or timer
+yet. Collected coins are removed in `update` (Task 1), so each coin is
+scored once.
 """
 
 import random

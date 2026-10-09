@@ -1,6 +1,7 @@
 """
 Coin: a static collectible circle. Drawn as a circle, hit-tested as a
-bounding square around it.
+bounding square around it. Its `kind` (see COIN_TYPES) sets its value
+and color.
 """
 
 import pygame
