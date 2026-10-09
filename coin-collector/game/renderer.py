@@ -35,16 +35,26 @@ def draw_text(surface, font, text, pos, color=COLOR_TEXT):
     surface.blit(surf, pos)
 
 
-def draw_banner(surface, font, text):
+def draw_banner(surface, font, lines):
+    """Centered framed panel; `lines` is one string or a list of them."""
+    if isinstance(lines, str):
+        lines = [lines]
     # Dim the whole scene so the banner reads clearly on top of it.
     shade = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
     shade.fill((0, 0, 0, 170))
     surface.blit(shade, (0, 0))
-    surf = font.render(text, True, (255, 220, 80))
-    rect = surf.get_rect(center=(surface.get_width() // 2, surface.get_height() // 2))
+    surfs = [font.render(line, True, (255, 220, 80)) for line in lines]
+    gap = 8
+    width = max(surf.get_width() for surf in surfs)
+    height = sum(surf.get_height() for surf in surfs) + gap * (len(surfs) - 1)
+    rect = pygame.Rect(0, 0, width, height)
+    rect.center = (surface.get_width() // 2, surface.get_height() // 2)
     pygame.draw.rect(surface, (20, 20, 20), rect.inflate(32, 20), border_radius=8)
     pygame.draw.rect(surface, (255, 220, 80), rect.inflate(32, 20), width=2, border_radius=8)
-    surface.blit(surf, rect)
+    y = rect.top
+    for surf in surfs:
+        surface.blit(surf, surf.get_rect(midtop=(rect.centerx, y)))
+        y += surf.get_height() + gap
 
 
 def draw_legend(surface, font, coin_types):
