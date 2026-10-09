@@ -19,6 +19,8 @@ NUM_COINS = 6
 # Relative spawn chances: bronze is common, gold is rare.
 COIN_WEIGHTS = {"bronze": 3, "silver": 2, "gold": 1}
 
+START_LIVES = 3
+
 NUM_OBSTACLES = 3
 OBSTACLE_SIZE = 40
 OBSTACLE_SPEED = (1.5, 2.5)  # min/max pixels per frame on each axis
@@ -34,6 +36,7 @@ class GameEngine:
         self.coins += [self._random_coin() for _ in range(NUM_COINS - len(COIN_TYPES))]
         self.obstacles = [self._random_obstacle() for _ in range(NUM_OBSTACLES)]
         self.score = 0
+        self.lives = START_LIVES
 
     def _random_coin(self, kind=None):
         if kind is None:
@@ -81,4 +84,5 @@ class GameEngine:
         from game import renderer
         renderer.draw_scene(surface, self.player, self.coins, self.obstacles)
         renderer.draw_text(surface, font, f"Score: {self.score}", (10, 10))
+        renderer.draw_text(surface, font, f"Lives: {self.lives}", (10, 36))
         renderer.draw_legend(surface, font, COIN_TYPES)
