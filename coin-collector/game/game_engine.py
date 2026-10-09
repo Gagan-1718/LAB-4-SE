@@ -39,6 +39,10 @@ SAFE_ZONE = 160
 
 class GameEngine:
     def __init__(self):
+        self.reset()
+
+    def reset(self):
+        """Start a fresh round: new field, score 0, full lives, full timer."""
         self.player = Player(x=WIDTH / 2, y=HEIGHT / 2)
         # One coin of every kind so all types appear, the rest random.
         self.coins = [self._random_coin(kind) for kind in COIN_TYPES]
