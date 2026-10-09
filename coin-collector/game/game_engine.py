@@ -70,11 +70,12 @@ class GameEngine:
                 return obstacle
 
     @property
-    def game_over(self):
-        return self.lives <= 0
+    def round_over(self):
+        """The round ends when time runs out or lives reach zero."""
+        return self.time_left <= 0 or self.lives <= 0
 
     def handle_input(self, keys_pressed):
-        if self.game_over:
+        if self.round_over:
             return
         dx = dy = 0
         if keys_pressed[pygame.K_UP]:
@@ -89,7 +90,7 @@ class GameEngine:
 
     def update(self, dt=1 / 60):
         """Advance one frame; `dt` is the real time it took, in seconds."""
-        if self.game_over:
+        if self.round_over:
             return
         self.time_left = max(0, self.time_left - min(dt, MAX_FRAME_SECONDS))
 
@@ -123,5 +124,5 @@ class GameEngine:
         renderer.draw_text(surface, font, f"Lives: {self.lives}", (10, 36))
         renderer.draw_text(surface, font, f"Time: {math.ceil(self.time_left)}", (10, 62))
         renderer.draw_legend(surface, font, COIN_TYPES)
-        if self.game_over:
+        if self.round_over:
             renderer.draw_banner(surface, font, f"Out of lives! Final score: {self.score}")

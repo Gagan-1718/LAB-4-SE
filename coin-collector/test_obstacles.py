@@ -58,7 +58,7 @@ class ObstacleTest(unittest.TestCase):
         self.engine.update()
         self.assertEqual(self.engine.lives, START_LIVES - 2)
 
-    def test_game_stops_at_zero_lives(self):
+    def test_round_stops_at_zero_lives(self):
         for _ in range(START_LIVES + 2):
             self.touch()
             self.engine.update()
@@ -66,7 +66,7 @@ class ObstacleTest(unittest.TestCase):
             for _ in range(HIT_GRACE_FRAMES):
                 self.engine.update()
         self.assertEqual(self.engine.lives, 0)
-        self.assertTrue(self.engine.game_over)
+        self.assertTrue(self.engine.round_over)
 
     def test_obstacles_stay_in_play_area(self):
         engine = GameEngine()
@@ -76,7 +76,7 @@ class ObstacleTest(unittest.TestCase):
                 rect = obstacle.get_rect()
                 self.assertTrue(0 <= rect.left and rect.right <= WIDTH, rect)
                 self.assertTrue(0 <= rect.top and rect.bottom <= HEIGHT, rect)
-            if engine.game_over:
+            if engine.round_over:
                 break
 
     def test_obstacles_never_spawn_on_player(self):
