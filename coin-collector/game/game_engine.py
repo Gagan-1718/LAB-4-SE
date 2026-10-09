@@ -1,10 +1,8 @@
 """
 GameEngine: owns the player and all coins.
 
-Starter version: one coin type, no obstacles, no timer yet. Coin
-collection also has a known bug (see how `update` uses check_collection
-below) that Task 1 asks you to fix - collected coins are never removed,
-so standing on one keeps awarding points every frame.
+Starter version: one coin type, no obstacles, no timer yet. Collected
+coins are removed in `update` (Task 1), so each coin is scored once.
 """
 
 import random
