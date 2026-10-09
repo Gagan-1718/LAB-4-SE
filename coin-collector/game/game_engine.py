@@ -1,9 +1,10 @@
 """
-GameEngine: owns the player and all coins.
+GameEngine: owns the player, coins and obstacles.
 
-Coins come in bronze/silver/gold types (Task 2); no obstacles or timer
-yet. Collected coins are removed in `update` (Task 1), so each coin is
-scored once.
+Collected coins are removed in `update` (Task 1), so each coin is scored
+once. Coins come in bronze/silver/gold types (Task 2). Moving obstacles
+cost a life when the player first touches one, followed by a short grace
+period; the game stops at zero lives (Task 3). No timer yet.
 """
 
 import random
