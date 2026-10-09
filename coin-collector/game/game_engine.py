@@ -14,7 +14,6 @@ from game.collection import check_collection
 from game.renderer import WIDTH, HEIGHT
 
 NUM_COINS = 6
-COIN_VALUE = 1
 # Relative spawn chances: bronze is common, gold is rare.
 COIN_WEIGHTS = {"bronze": 3, "silver": 2, "gold": 1}
 
