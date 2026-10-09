@@ -21,6 +21,9 @@ NUM_COINS = 6
 COIN_WEIGHTS = {"bronze": 3, "silver": 2, "gold": 1}
 
 ROUND_SECONDS = 30
+# Longest time step one frame may take off the clock, so a stall (e.g.
+# dragging the window) doesn't drain the timer in a single frame.
+MAX_FRAME_SECONDS = 0.25
 
 START_LIVES = 3
 # Frames of invulnerability after a hit (60 frames = 1 second).
@@ -87,7 +90,7 @@ class GameEngine:
         """Advance one frame; `dt` is the real time it took, in seconds."""
         if self.game_over:
             return
-        self.time_left = max(0, self.time_left - dt)
+        self.time_left = max(0, self.time_left - min(dt, MAX_FRAME_SECONDS))
 
         for obstacle in self.obstacles:
             obstacle.update(WIDTH, HEIGHT)
