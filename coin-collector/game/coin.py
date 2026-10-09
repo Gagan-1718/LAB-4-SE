@@ -14,12 +14,18 @@ COIN_TYPES = {
 
 
 class Coin:
-    def __init__(self, x, y, radius=12, value=1, color=(230, 190, 60)):
+    def __init__(self, x, y, radius=12, value=1, color=(230, 190, 60), kind="bronze"):
         self.x = x
         self.y = y
         self.radius = radius
         self.value = value
         self.color = color
+        self.kind = kind
+
+    @classmethod
+    def of_kind(cls, kind, x, y, radius=12):
+        value, color = COIN_TYPES[kind]
+        return cls(x, y, radius=radius, value=value, color=color, kind=kind)
 
     def get_rect(self):
         return pygame.Rect(
