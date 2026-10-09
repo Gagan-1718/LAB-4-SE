@@ -36,6 +36,10 @@ def draw_text(surface, font, text, pos, color=COLOR_TEXT):
 
 
 def draw_banner(surface, font, text):
+    # Dim the whole scene so the banner reads clearly on top of it.
+    shade = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
+    shade.fill((0, 0, 0, 170))
+    surface.blit(shade, (0, 0))
     surf = font.render(text, True, (255, 220, 80))
     rect = surf.get_rect(center=(surface.get_width() // 2, surface.get_height() // 2))
     surface.blit(surf, rect)
