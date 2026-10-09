@@ -67,6 +67,9 @@ class GameEngine:
         self.player.move(dx, dy, WIDTH, HEIGHT)
 
     def update(self):
+        for obstacle in self.obstacles:
+            obstacle.update(WIDTH, HEIGHT)
+
         # Collected coins are removed from the field so that standing on
         # one awards its value exactly once instead of every frame.
         collected = check_collection(self.player, self.coins)
