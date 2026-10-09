@@ -79,6 +79,6 @@ class GameEngine:
 
     def draw(self, surface, font):
         from game import renderer
-        renderer.draw_scene(surface, self.player, self.coins)
+        renderer.draw_scene(surface, self.player, self.coins, self.obstacles)
         renderer.draw_text(surface, font, f"Score: {self.score}", (10, 10))
         renderer.draw_legend(surface, font, COIN_TYPES)

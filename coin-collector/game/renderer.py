@@ -11,10 +11,13 @@ COLOR_BG = (35, 45, 35)
 COLOR_PLAYER = (80, 180, 255)
 COLOR_TEXT = (255, 255, 255)
 COLOR_COIN_OUTLINE = (20, 20, 20)
+COLOR_OBSTACLE = (210, 60, 60)
 
 
-def draw_scene(surface, player, coins):
+def draw_scene(surface, player, coins, obstacles=()):
     surface.fill(COLOR_BG)
+    for obstacle in obstacles:
+        pygame.draw.rect(surface, COLOR_OBSTACLE, obstacle.get_rect(), border_radius=6)
     for coin in coins:
         center = (int(coin.x), int(coin.y))
         pygame.draw.circle(surface, coin.color, center, coin.radius)
