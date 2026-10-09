@@ -29,6 +29,8 @@ RESTART_KEYS = (pygame.K_r, pygame.K_RETURN, pygame.K_SPACE)
 # Longest time step one frame may take off the clock, so a stall (e.g.
 # dragging the window) doesn't drain the timer in a single frame.
 MAX_FRAME_SECONDS = 0.25
+# The timer turns red when this many seconds or fewer remain.
+LOW_TIME_SECONDS = 5
 
 START_LIVES = 3
 # Frames of invulnerability after a hit (60 frames = 1 second).
@@ -139,7 +141,8 @@ class GameEngine:
         renderer.draw_scene(surface, self.player, self.coins, self.obstacles, visible)
         renderer.draw_text(surface, font, f"Score: {self.score}", (10, 10))
         renderer.draw_text(surface, font, f"Lives: {self.lives}", (10, 36))
-        renderer.draw_text(surface, font, f"Time: {math.ceil(self.time_left)}", (10, 62))
+        time_color = (255, 90, 90) if self.time_left <= LOW_TIME_SECONDS else renderer.COLOR_TEXT
+        renderer.draw_text(surface, font, f"Time: {math.ceil(self.time_left)}", (10, 62), time_color)
         renderer.draw_legend(surface, font, COIN_TYPES)
         if self.round_over:
             reason = "Out of lives!" if self.lives <= 0 else "Time's up!"
