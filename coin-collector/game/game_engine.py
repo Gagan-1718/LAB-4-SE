@@ -4,7 +4,8 @@ GameEngine: owns the player, coins and obstacles.
 Collected coins are removed in `update` (Task 1), so each coin is scored
 once. Coins come in bronze/silver/gold types (Task 2). Moving obstacles
 cost a life when the player first touches one, followed by a short grace
-period; the game stops at zero lives (Task 3). No timer yet.
+period (Task 3). Each round lasts 30 seconds and ends early at zero
+lives; after it ends, `handle_keydown` restarts it via `reset` (Task 4).
 """
 
 import math
