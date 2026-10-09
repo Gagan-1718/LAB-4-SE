@@ -12,7 +12,7 @@ import pygame
 from game.player import Player
 from game.coin import Coin, COIN_TYPES
 from game.obstacle import Obstacle
-from game.collection import check_collection
+from game.collection import check_collection, touching_obstacle
 from game.renderer import WIDTH, HEIGHT
 
 NUM_COINS = 6
@@ -37,6 +37,7 @@ class GameEngine:
         self.obstacles = [self._random_obstacle() for _ in range(NUM_OBSTACLES)]
         self.score = 0
         self.lives = START_LIVES
+        self.was_touching = False
 
     def _random_coin(self, kind=None):
         if kind is None:
@@ -72,6 +73,13 @@ class GameEngine:
     def update(self):
         for obstacle in self.obstacles:
             obstacle.update(WIDTH, HEIGHT)
+
+        # Lose a life only on the frame contact begins, not on every
+        # frame the player keeps overlapping an obstacle.
+        touching = touching_obstacle(self.player, self.obstacles)
+        if touching and not self.was_touching:
+            self.lives -= 1
+        self.was_touching = touching
 
         # Collected coins are removed from the field so that standing on
         # one awards its value exactly once instead of every frame.
