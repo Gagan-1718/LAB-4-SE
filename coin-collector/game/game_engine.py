@@ -61,7 +61,13 @@ class GameEngine:
             if not obstacle.get_rect().colliderect(safe):
                 return obstacle
 
+    @property
+    def game_over(self):
+        return self.lives <= 0
+
     def handle_input(self, keys_pressed):
+        if self.game_over:
+            return
         dx = dy = 0
         if keys_pressed[pygame.K_UP]:
             dy -= self.player.speed
@@ -74,6 +80,8 @@ class GameEngine:
         self.player.move(dx, dy, WIDTH, HEIGHT)
 
     def update(self):
+        if self.game_over:
+            return
         for obstacle in self.obstacles:
             obstacle.update(WIDTH, HEIGHT)
 
@@ -103,3 +111,5 @@ class GameEngine:
         renderer.draw_text(surface, font, f"Score: {self.score}", (10, 10))
         renderer.draw_text(surface, font, f"Lives: {self.lives}", (10, 36))
         renderer.draw_legend(surface, font, COIN_TYPES)
+        if self.game_over:
+            renderer.draw_banner(surface, font, f"Out of lives! Final score: {self.score}")
