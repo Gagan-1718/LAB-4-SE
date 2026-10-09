@@ -15,6 +15,8 @@ from game.renderer import WIDTH, HEIGHT
 
 NUM_COINS = 6
 COIN_VALUE = 1
+# Relative spawn chances: bronze is common, gold is rare.
+COIN_WEIGHTS = {"bronze": 3, "silver": 2, "gold": 1}
 
 
 class GameEngine:
@@ -23,10 +25,12 @@ class GameEngine:
         self.coins = [self._random_coin() for _ in range(NUM_COINS)]
         self.score = 0
 
-    def _random_coin(self):
+    def _random_coin(self, kind=None):
+        if kind is None:
+            kind = random.choices(list(COIN_WEIGHTS), weights=list(COIN_WEIGHTS.values()))[0]
         x = random.randint(30, WIDTH - 30)
         y = random.randint(30, HEIGHT - 30)
-        return Coin(x=x, y=y, radius=12, value=COIN_VALUE)
+        return Coin.of_kind(kind, x=x, y=y, radius=12)
 
     def handle_input(self, keys_pressed):
         dx = dy = 0
