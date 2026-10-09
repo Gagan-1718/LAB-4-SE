@@ -21,6 +21,7 @@ def main():
 
     engine = GameEngine()
     running = True
+    dt = 0
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -28,11 +29,12 @@ def main():
 
         keys = pygame.key.get_pressed()
         engine.handle_input(keys)
-        engine.update()
+        engine.update(dt)
         engine.draw(screen, font)
 
         pygame.display.flip()
-        clock.tick(60)
+        # Seconds since the last frame, so the round timer uses real time.
+        dt = clock.tick(60) / 1000
 
     pygame.quit()
 
