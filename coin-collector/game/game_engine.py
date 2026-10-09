@@ -22,6 +22,7 @@ NUM_COINS = 6
 COIN_WEIGHTS = {"bronze": 3, "silver": 2, "gold": 1}
 
 ROUND_SECONDS = 30
+RESTART_KEYS = (pygame.K_r, pygame.K_RETURN, pygame.K_SPACE)
 # Longest time step one frame may take off the clock, so a stall (e.g.
 # dragging the window) doesn't drain the timer in a single frame.
 MAX_FRAME_SECONDS = 0.25
@@ -77,6 +78,11 @@ class GameEngine:
     def round_over(self):
         """The round ends when time runs out or lives reach zero."""
         return self.time_left <= 0 or self.lives <= 0
+
+    def handle_keydown(self, key):
+        """One-shot key presses; restarts the round once it is over."""
+        if self.round_over and key in RESTART_KEYS:
+            self.reset()
 
     def handle_input(self, keys_pressed):
         if self.round_over:
